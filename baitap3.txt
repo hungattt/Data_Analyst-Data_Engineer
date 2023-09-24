@@ -1,0 +1,71 @@
+Xử lý dữ liệu thiếu cân bằng (SMOTE) - áp dụng cho bài toán phân lớp nhị phân
+
+# SVM cho kết quả rất thấp 33% , một số lớp ko nhận ra
+# Bài 1: Lọc lấy Class 0, 3, 6. Sử dụng SVM để phân lớp. So sánh kết quả
+# Bài 2: Dùng RandomForestClassifier thay thế SVM và so sánh
+# Bài 3: Chuẩn hóa lại dữ liệu X với StandardScaler và chạy SVM
+
+# from sklearn.preprocessing import StandardScaler
+# X = StandardScaler().fit(X).transform(X) # HOặc MinMaxScaler
+#  --> 72%, tăng đáng kể. Vậy chuẩn hóa cần với một số phương pháp. 
+
+============== Code===============
+
+#sudo pip install imbalanced-learn
+import imblearn
+# load and summarize the dataset
+from pandas import read_csv
+from imblearn.over_sampling import SMOTE
+from collections import Counter
+from matplotlib import pyplot
+from sklearn.preprocessing import LabelEncoder
+
+#url = 'https://raw.githubusercontent.com/jbrownlee/Datasets/master/glass.csv&#39;
+url = 'E:/TEACHING/AML/data/glass.csv'
+df = read_csv(url, header=None)
+data = df.values
+X, y = data[:, :-1], data[:, -1]
+
+print(y)
+y = LabelEncoder().fit_transform(y)
+print (y)
+#--> y không có giá trị 0 và 4. Cần label encoder để đưa về từ 0-6
+counter = Counter(y)
+print(counter)
+for k,v in counter.items():
+    per = v / len(y) * 100
+    print('Class=%d, n=%d (%.3f%%)' % (k, v, per))
+
+pyplot.bar(counter.keys(), counter.values())
+pyplot.show()
+
+strategy = {0:400, 1:200, 2:100, 3:300, 4:300, 5:300}
+oversample = SMOTE(sampling_strategy=strategy)
+# oversample = SMOTE()
+X, y = oversample.fit_resample(X, y)
+
+counter = Counter(y)
+print(counter)
+for k,v in counter.items():
+    per = v / len(y) * 100
+    print('Class=%d, n=%d (%.3f%%)' % (k, v, per))
+
+pyplot.bar(counter.keys(), counter.values())
+pyplot.show()
+
+
+
+# ###
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+clf = SVC()
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+print (accuracy_score(y_test,y_pred))
+from sklearn.metrics import classification_report
+print (classification_report(y_test,y_pred))
+
+# # #Có thể dùng RandomForestClassifier

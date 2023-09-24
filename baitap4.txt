@@ -1,0 +1,21 @@
+**XỬ LÝ DỮ LIỆU - chuyển chữ sang dữ liệu số 
+ví dụ: comment, nam/nữ, tiểu học/trung học/ đại học/ thạc sĩ, iris tên 3 loài hoa --> số 
++ LabelEncoder --> không tạo ra cột mới 
+from sklearn.preprocessing import LabelEncoder
+tên_cột = LabelEncoder().fit_transform(tên_cột)
+
++ OneHotEncoder --> tạo ra cột mới tương ứng với số lớp (không có tên của lớp) 
+ten_cot = OneHotEncoder().fit_transform(ten_cot )
+
++ Dummy 
+--> tạo ra cột mới tương ứng với số lớp (mang tên của lớp) 
+ten_cot= pd.get_dummies(ten_cot)
+
++ OrdinalEncoder --> giống LabelEncoder, không tạo ra cột mới 
+ten_cot = OrdinalEncoder().fit_transform(ten_cot )...
+
+# Encoding -------
+# Link tham khảo
+# https://www.geeksforgeeks.org/ml-one-hot-encoding-of-datasets-in-python/
+# https://www.ritchieng.com/machinelearning-one-hot-encoding/
+# https://analyticsindiamag.com/comparing-label-encoding-and-one-hot-encoding-with-python-implementation/--> chạy code dự đoán --> so sánh kết quả

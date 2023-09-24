@@ -1,0 +1,20 @@
+--> Học kết hợp nhiều kỹ thuật học máy với nhau: ví dụ: khai báo 1 estimator  và kết hợp cùng lúc LogisticRegression, SVM, DecisionTreeClassifier
+--> SỬ DỤNG KỸ THUẬT VOTE (bỏ phiếu) để chọn kết quả đúng nhất --> VotingClassifier bỏ phiếu cứng hard và mềm soft
+
+
+Bỏ phiếu cứng: Trong bỏ phiếu cứng, lớp đầu ra được dự đoán là lớp có đa số phiếu bầu cao nhất, tức là lớp có xác suất được dự đoán cao nhất bởi mỗi bộ phân loại. Giả sử ba bộ phân loại dự đoán loại đầu ra (A, A, B), vì vậy ở đây đa số dự đoán A là đầu ra. Do đó A sẽ là dự đoán cuối cùng.
+Biểu quyết mềm: Trong biểu quyết mềm, lớp đầu ra là dự đoán dựa trên giá trị trung bình của xác suất cho lớp đó. Giả sử cho một số đầu vào cho ba mô hình, xác suất dự đoán cho lớp A = (0,30, 0,47, 0,53) và B = (0,20, 0,32, 0,40). Vì vậy, điểm trung bình của lớp A là 0,4333 và B là 0,3067, người chiến thắng rõ ràng là lớp A vì nó có xác suất trung bình cao nhất cho mỗi bộ phân loại.
+
+# group / ensemble of models
+estimator = []
+estimator.append(('LR',
+                  LogisticRegression(solver ='lbfgs',
+                                     multi_class ='multinomial',
+                                     max_iter = 20000)))
+estimator.append(('SVC', SVC(gamma ='auto', probability = True)))
+estimator.append(('DTC', DecisionTreeClassifier()))
+
+# Voting Classifier with hard voting
+vot_hard = VotingClassifier(estimators = estimator, voting ='hard')
+vot_hard.fit(X_train, y_train)
+y_pred = vot_hard.predict(X_test)

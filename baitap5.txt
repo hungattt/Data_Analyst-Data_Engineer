@@ -1,0 +1,23 @@
+XỬ LÝ DỮ LIỆU - RỖNG, NaN
++ kiểm tra null 
+print(df_weather.shape)
+print(df_weather[df_weather.isnull().any(axis=1)])
+
++ xóa null 
+df_weather = df_weather.dropna()
+print(df_weather.shape)
+
++ điền (bằng giá trị trung bình)
+import pandas as pd
+df = pd.read_excel( 'd2.xlsx', ) )
+print(df.mean())
+print(df.isna().any())
+df.fillna(df.mean(), inplace=True)
+df.isna().any()
+
++ điền (bằng dự đoán)
+dataset1 = pd.read_csv('Data.csv')
+dataset1.interpolate(method ='linear', limit_direction ='forward') # to interpolate the missing values
+
++ ...
+--> chạy code dự đoán --> so sánh kết quả

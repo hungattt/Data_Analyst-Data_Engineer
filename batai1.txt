@@ -1,0 +1,5 @@
+BÀI TẬP:  cho file glass.csv 
+Bài 1. Đọc dữ liệu từ file cvs. Loại bỏ giá trị rỗng, chuẩn hóa dữ liệu. Chia tỉ lệ train test 50-50
+Bài 2:  Sử dụng Logistic để phân lớp. Hiện thị kết quả độ chính xác
+Bài 3: Sử dụng thuật toán kết hợp của LogisticRegressionm, SVC, DecisionTreeClassifier với hard vote .Hiện thị kết quả độ chính xác
+Bài 4: Dùng soft vote. So sánh
